@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portofolio Arly</title>
+
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            purple: { primary: "#8B5CF6", dark: "#6D28D9", light: "#A78BFA" },
+            grey: {
+              dark: "#0a0a0a",
+              light: "#D1D5DB",
+              surface: "#F3F4F6",
+              premium: "#1F2937",
+            },
+          },
+          animation: {
+            blob: "blob 10s infinite",
+            "spin-slow": "spin 15s linear infinite",
+            "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+          },
+          keyframes: {
+            blob: {
+              "0%, 100%": { transform: "translate(0px, 0px) scale(1)" },
+              "33%": { transform: "translate(50px, -70px) scale(1.1)" },
+              "66%": { transform: "translate(-30px, 40px) scale(0.9)" },
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Tema Terang Abu-abu Premium */
+    html:not(.dark) body {
+      background-color: #f3f4f6;
+      color: #1f2937;
+    }
+
+    /* Glassmorphism HD */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.01);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .light .glass-card {
+      background: rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    /* Teks Gradasi */
+    .text-gradient {
+      background: linear-gradient(135deg, #8b5cf6, #d8b4fe, #8b5cf6);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradient-flow 5s linear infinite;
+    }
+
+    @keyframes gradient-flow {
+      0% {
+        background-position: 0% center;
+      }
+
+      100% {
+        background-position: 200% center;
+      }
+    }
+
+    .smooth-transition {
+      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* Floating Image with Glow */
+    .floating-img {
+      animation: floating 6s ease-in-out infinite;
+    }
+
+    @keyframes floating {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      50% {
+        transform: translateY(-20px) rotate(2deg);
+      }
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #8b5cf6;
+      border-radius: 20px;
+    }
+
+    #cert-modal {
+      display: none;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    #cert-modal.active {
+      display: flex !important;
+      opacity: 1 !important;
+      pointer-events: auto;
+    }
+
+    #modal-img {
+      transform: scale(0.5);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    #cert-modal.active #modal-img {
+      transform: scale(1);
+    }
+
+    /* Section Backgrounds - Zebra Pattern for Harmony */
+
+    /* Section Ganjil (Home, Skills, Projek) */
+    .bg-primary-surface {
+      @apply bg-[#f3f4f6] dark:bg-[#0a0a0a];
+    }
+
+    /* Section Genap (Education/Experience, Sertifikasi, Kontak) */
+    .bg-secondary-surface {
+      background-color: #ffffff;
+      /* Light Mode */
+    }
+
+    .dark .bg-secondary-surface {
+      background-color: #111111;
+      /* Dark Mode - Sedikit lebih terang dari hitam dasar */
+    }
+
+    /* Transisi antar section agar halus */
+    section {
+      transition: background-color 0.5s ease;
+    }
+  </style>
+</head>
+
+<body
+  class="bg-grey-light dark:bg-grey-dark text-slate-800 dark:text-gray-100 smooth-transition font-sans antialiased overflow-x-hidden">
+
+  <div id="cert-modal"
+    class="fixed inset-0 items-center justify-center p-4 bg-black/90 backdrop-blur-xl transition-opacity duration-300"
+    onclick="closeModal()">
+    <button
+      class="absolute top-6 right-6 text-white text-5xl hover:text-purple-primary transition-colors z-[10000] cursor-pointer">&times;</button>
+    <div class="max-w-5xl w-full h-full flex items-center justify-center">
+      <img id="modal-img" src="" class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl"
+        alt="Sertifikat Full" />
+    </div>
+  </div>
+
+  <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+    <div
+      class="absolute -top-20 -left-20 w-[500px] h-[500px] bg-purple-primary/20 rounded-full filter blur-[120px] animate-blob">
+    </div>
+    <div
+      class="absolute top-1/2 -right-20 w-[400px] h-[400px] bg-purple-light/10 rounded-full filter blur-[100px] animate-blob animation-delay-2000">
+    </div>
+    <div class="absolute inset-0 flex items-center justify-center opacity-[0.02] dark:opacity-[0.03] select-none">
+      <h1 class="text-[20vw] font-black tracking-tighter">ArLy</h1>
+    </div>
+  </div>
+
+  <div class="fixed top-8 right-8 z-[100]">
+    <button onclick="toggleTheme()"
+      class="group relative p-4 rounded-2xl bg-white/5 dark:bg-black/20 backdrop-blur-2xl border border-white/10 shadow-2xl smooth-transition active:scale-90 overflow-hidden">
+      <div class="absolute inset-0 bg-purple-primary opacity-0 group-hover:opacity-20 smooth-transition"></div>
+      <span id="theme-icon" class="text-2xl relative z-10">🌙</span>
+    </button>
+  </div>
+
+  <section id="home"
+    class="min-h-screen flex items-center justify-center px-6 lg:px-24 py-20 relative overflow-hidden bg-primary-surface">
+    <div class="max-w-7xl w-full grid lg:grid-cols-2 gap-16 items-center">
+
+      <div class="order-2 lg:order-1 text-center lg:text-left space-y-6">
+        <div data-aos="fade-right" data-aos-delay="200"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-primary/10 border border-purple-primary/20 text-purple-primary text-xs font-bold tracking-widest uppercase">
+          <span class="relative flex h-2 w-2">
+            <span
+              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-primary opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-purple-primary"></span>
+          </span>
+          Tersedia untuk Freelance
+        </div>
+
+        <h1 data-aos="fade-right" data-aos-delay="400"
+          class="text-5xl md:text-7xl lg:text-8xl font-black leading-[0.9] tracking-tighter">
+          Halo, Saya <br />
+          <span class="text-gradient">MUHAMAD ARLY LIANOV</span>
+        </h1>
+
+        <p data-aos="fade-right" data-aos-delay="600"
+          class="text-lg md:text-xl text-gray-500 dark:text-gray-400 max-w-xl mx-auto lg:mx-0 font-medium leading-relaxed">
+          Seorang <span class="text-purple-primary font-bold italic">Digital Crafter</span> yang fokus pada pengembangan
+          website modern, interaktif, dan performa tinggi dengan pengalaman visual yang memukau.
+        </p>
+
+        <div data-aos="fade-up" data-aos-delay="800" class="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
+          <a href="#projek"
+            class="px-8 py-4 bg-purple-primary text-white rounded-2xl font-bold shadow-lg shadow-purple-primary/30 hover:shadow-purple-primary/50 hover:-translate-y-1 transition-all duration-300">
+            Lihat Projek Saya
+          </a>
+          <a href="#kontak"
+            class="px-8 py-4 glass-card rounded-2xl font-bold hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 border border-purple-primary/10">
+            Hubungi Saya
+          </a>
+        </div>
+      </div>
+
+      <div class="order-1 lg:order-2 flex justify-center items-center relative">
+        <div data-aos="zoom-in" data-aos-duration="1500" class="relative">
+          <div
+            class="absolute -inset-4 border-2 border-dashed border-purple-primary/20 rounded-[4rem] animate-spin-slow">
+          </div>
+          <div class="absolute inset-0 bg-purple-primary blur-[80px] opacity-20 animate-pulse-slow"></div>
+
+          <div
+            class="w-64 h-64 md:w-80 md:h-80 lg:w-[400px] lg:h-[400px] rounded-[3.5rem] border border-white/10 p-4 floating-img relative z-10 glass-card">
+            <img src="foto-saya.png" alt="Muhamad Arly Lianov"
+              class="w-full h-full object-cover rounded-[2.5rem] grayscale hover:grayscale-0 transition-all duration-1000 shadow-2xl shadow-purple-primary/20" />
+          </div>
+        </div>
+      </div>
+
+    </div>  
+  </section>
+
+  <section class="py-24 px-6 relative bg-secondary-surface">
+    <div class="grid md:grid-cols-2 gap-12">
+
+      <div data-aos="fade-right" class="space-y-8">
+        <div class="flex items-center gap-4 mb-8">
+          <div class="p-3 bg-purple-primary rounded-2xl shadow-lg shadow-purple-primary/20">
+            <i class="fas fa-graduation-cap text-white text-xl"></i>
+          </div>
+          <h2 class="text-purple-primary font-black uppercase tracking-[0.3em] text-sm">
+            Pendidikan (Education)
+          </h2>
+        </div>
+
+        <div class="relative border-l-2 border-purple-primary/30 ml-4 pl-8 space-y-10">
+          <div class="relative group">
+            <div
+              class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-purple-primary border-4 border-grey-light dark:border-grey-dark group-hover:scale-150 transition-transform duration-300">
+            </div>
+            <h3 class="text-xl font-bold group-hover:text-purple-primary smooth-transition">UNIVERSITAS BINA SARANA
+              INFORMATIKA</h3>
+            <p class="text-purple-primary/80 font-bold text-sm mb-2">2022 — 2026</p>
+            <p class="opacity-70 font-medium">S1 Sistem Informasi</p>
+          </div>
+
+          <div class="relative group">
+            <div
+              class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-purple-primary/50 border-4 border-grey-light dark:border-grey-dark group-hover:scale-150 group-hover:bg-purple-primary transition-transform duration-300">
+            </div>
+            <h3 class="text-xl font-bold group-hover:text-purple-primary smooth-transition">SMAN 9 KOTA TANGERANG</h3>
+            <p class="text-gray-500 font-bold text-sm mb-2">2017 — 2020</p>
+            <p class="opacity-70 font-medium">Ilmu Pengetahuan Sosial</p>
+          </div>
+
+          <div class="relative group">
+            <div
+              class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-purple-primary/50 border-4 border-grey-light dark:border-grey-dark group-hover:scale-150 group-hover:bg-purple-primary transition-transform duration-300">
+            </div>
+            <h3 class="text-xl font-bold group-hover:text-purple-primary smooth-transition">SMPN 3 KOTA TANGERANG</h3>
+            <p class="text-gray-500 font-bold text-sm">2014 — 2017</p>
+          </div>
+
+          <div class="relative group">
+            <div
+              class="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-purple-primary/50 border-4 border-grey-light dark:border-grey-dark group-hover:scale-150 group-hover:bg-purple-primary transition-transform duration-300">
+            </div>
+            <h3 class="text-xl font-bold group-hover:text-purple-primary smooth-transition">MI MISBAHUN NASYIIN</h3>
+            <p class="text-gray-500 font-bold text-sm">2008 — 2014</p>
+          </div>
+        </div>
+      </div>
+
+      <div data-aos="fade-left" data-aos-delay="200" class="space-y-8">
+        <div class="flex items-center gap-4 mb-8">
+          <div class="p-3 bg-purple-primary rounded-2xl shadow-lg shadow-purple-primary/20">
+            <i class="fas fa-briefcase text-white text-xl"></i>
+          </div>
+          <h2 class="text-purple-primary font-black uppercase tracking-[0.3em] text-sm">
+            Pengalaman (Experience)
+          </h2>
+        </div>
+
+        <div class="relative border-l-2 border-purple-primary/30 ml-4 pl-8 space-y-10">
+          <div class="glass-card p-6 rounded-[2rem] relative group border-l-0">
+            <div
+              class="absolute -left-[41px] top-7 w-4 h-4 rounded-full bg-purple-primary border-4 border-grey-light dark:border-grey-dark group-hover:scale-150 transition-transform duration-300">
+            </div>
+            <h3 class="text-xl font-bold group-hover:text-purple-primary smooth-transition">PT. CAKRA SATYA INTERNUSA
+              (CSI)</h3>
+            <p class="text-purple-primary/80 font-bold text-sm mb-3">JUNI 2022 — NOVEMBER 2025</p>
+            <div
+              class="inline-block px-4 py-1 rounded-full bg-purple-primary/10 text-purple-primary text-xs font-bold uppercase tracking-wider">
+              Customer Relation Officer
+            </div>
+          </div>
+
+          <div class="glass-card p-6 rounded-[2rem] relative group border-l-0">
+            <div
+              class="absolute -left-[41px] top-7 w-4 h-4 rounded-full bg-purple-primary/50 border-4 border-grey-light dark:border-grey-dark group-hover:scale-150 group-hover:bg-purple-primary transition-transform duration-300">
+            </div>
+            <h3 class="text-xl font-bold group-hover:text-purple-primary smooth-transition">PCARE</h3>
+            <p class="text-gray-500 font-bold text-sm mb-3">AGUSTUS 2021 — JUNI 2022</p>
+            <div
+              class="inline-block px-4 py-1 rounded-full bg-purple-primary/10 text-purple-primary text-xs font-bold uppercase tracking-wider">
+              Admin Inputer Data Vaksin - Freelance
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="py-24 px-6 max-w-6xl mx-auto overflow-hidden">
+    <div data-aos="fade-up" class="mb-16">
+      <h2 class="text-purple-primary font-black uppercase tracking-[0.3em] text-sm mb-2 text-center">
+        Intermediate Level
+      </h2>
+      <h3 class="text-5xl font-black text-center tracking-tighter">
+        SKILLS & <span class="text-gradient">TOOLS.</span>
+      </h3>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div data-aos="fade-up"
+        class="glass-card p-6 rounded-[2.5rem] hover:bg-purple-primary/10 group transition-all duration-500">
+        <div class="flex justify-between mb-4 items-center">
+          <div class="flex items-center gap-3">
+            <i class="fas fa-bezier-curve text-purple-primary text-xl group-hover:rotate-12 transition-transform"></i>
+            <span class="text-lg font-bold tracking-tight">UI/UX Design</span>
+          </div>
+          <span class="text-xs font-black opacity-40">65%</span>
+        </div>
+        <div class="w-full bg-grey-light/20 dark:bg-white/5 rounded-full h-2 overflow-hidden">
+          <div class="bg-gradient-to-r from-purple-dark to-purple-primary h-full rounded-full animate-skill-65"></div>
+        </div>
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="100"
+        class="glass-card p-6 rounded-[2.5rem] hover:bg-purple-primary/10 group transition-all duration-500">
+        <div class="flex justify-between mb-4 items-center">
+          <div class="flex items-center gap-3">
+            <i class="fab fa-css3-alt text-purple-primary text-xl group-hover:rotate-12 transition-transform"></i>
+            <span class="text-lg font-bold tracking-tight">Tailwind CSS</span>
+          </div>
+          <span class="text-xs font-black opacity-40">70%</span>
+        </div>
+        <div class="w-full bg-grey-light/20 dark:bg-white/5 rounded-full h-2 overflow-hidden">
+          <div class="bg-gradient-to-r from-purple-dark to-purple-primary h-full rounded-full animate-skill-70"></div>
+        </div>
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="200"
+        class="glass-card p-6 rounded-[2.5rem] hover:bg-purple-primary/10 group transition-all duration-500">
+        <div class="flex justify-between mb-4 items-center">
+          <div class="flex items-center gap-3">
+            <i class="fab fa-js text-purple-primary text-xl group-hover:rotate-12 transition-transform"></i>
+            <span class="text-lg font-bold tracking-tight">Javascript</span>
+          </div>
+          <span class="text-xs font-black opacity-40">70%</span>
+        </div>
+        <div class="w-full bg-grey-light/20 dark:bg-white/5 rounded-full h-2 overflow-hidden">
+          <div class="bg-gradient-to-r from-purple-dark to-purple-primary h-full rounded-full animate-skill-70"></div>
+        </div>
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="300"
+        class="glass-card p-6 rounded-[2.5rem] hover:bg-purple-primary/10 group transition-all duration-500">
+        <div class="flex justify-between mb-4 items-center">
+          <div class="flex items-center gap-3">
+            <i class="fas fa-palette text-purple-primary text-xl group-hover:rotate-12 transition-transform"></i>
+            <span class="text-lg font-bold tracking-tight">Desain Gambar</span>
+          </div>
+          <span class="text-xs font-black opacity-40">60%</span>
+        </div>
+        <div class="w-full bg-grey-light/20 dark:bg-white/5 rounded-full h-2 overflow-hidden">
+          <div class="bg-gradient-to-r from-purple-dark to-purple-primary h-full rounded-full animate-skill-60"></div>
+        </div>
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="400"
+        class="glass-card p-6 rounded-[2.5rem] hover:bg-purple-primary/10 group transition-all duration-500">
+        <div class="flex justify-between mb-4 items-center">
+          <div class="flex items-center gap-3">
+            <i class="fas fa-video text-purple-primary text-xl group-hover:rotate-12 transition-transform"></i>
+            <span class="text-lg font-bold tracking-tight">Video Editing</span>
+          </div>
+          <span class="text-xs font-black opacity-40">60%</span>
+        </div>
+        <div class="w-full bg-grey-light/20 dark:bg-white/5 rounded-full h-2 overflow-hidden">
+          <div class="bg-gradient-to-r from-purple-dark to-purple-primary h-full rounded-full animate-skill-60"></div>
+        </div>
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="500"
+        class="glass-card p-6 rounded-[2.5rem] hover:bg-purple-primary/10 group transition-all duration-500">
+        <div class="flex justify-between mb-4 items-center">
+          <div class="flex items-center gap-3">
+            <i class="fas fa-file-word text-purple-primary text-xl group-hover:rotate-12 transition-transform"></i>
+            <span class="text-lg font-bold tracking-tight">MS Office</span>
+          </div>
+          <span class="text-xs font-black opacity-40">85%</span>
+        </div>
+        <div class="w-full bg-grey-light/20 dark:bg-white/5 rounded-full h-2 overflow-hidden">
+          <div class="bg-gradient-to-r from-purple-dark to-purple-primary h-full rounded-full animate-skill-85"></div>
+        </div>
+      </div>
+    </div>
+
+      <div data-aos="fade-up" data-aos-delay="500"
+        class="glass-card p-6 rounded-[2.5rem] hover:bg-purple-primary/10 group transition-all duration-500">
+        <div class="flex justify-between mb-4 items-center">
+          <div class="flex items-center gap-3">
+            <i class="fas fa-wand-magic-sparkles text-purple-primary text-xl group-hover:rotate-12 transition-transform"></i>
+            <span class="text-lg font-bold tracking-tight">Prompt Ai</span>
+          </div>
+          <span class="text-xs font-black opacity-40">90%</span>
+        </div>
+        <div class="w-full bg-grey-light/20 dark:bg-white/5 rounded-full h-2 overflow-hidden">
+          <div class="bg-gradient-to-r from-purple-dark to-purple-primary h-full rounded-full animate-skill-90"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    @keyframes fillProgress {
+      from {
+        width: 0%;
+      }
+
+      to {
+        width: var(--progress);
+      }
+    }
+
+    .animate-skill-65 {
+      --progress: 65%;
+      animation: fillProgress 2s cubic-bezier(0.1, 0.5, 0.2, 1) forwards;
+    }
+
+    .animate-skill-70 {
+      --progress: 70%;
+      animation: fillProgress 2s cubic-bezier(0.1, 0.5, 0.2, 1) forwards;
+    }
+
+    .animate-skill-60 {
+      --progress: 60%;
+      animation: fillProgress 2s cubic-bezier(0.1, 0.5, 0.2, 1) forwards;
+    }
+
+    .animate-skill-60 {
+      --progress: 60%;
+      animation: fillProgress 2s cubic-bezier(0.1, 0.5, 0.2, 1) forwards;
+    }
+
+    .animate-skill-85 {
+      --progress: 85%;
+      animation: fillProgress 2s cubic-bezier(0.1, 0.5, 0.2, 1) forwards;
+    }
+  
+    .animate-skill-90 {
+      --progress: 90%;
+      animation: fillProgress 2s cubic-bezier(0.1, 0.5, 0.2, 1) forwards;
+    }
+  </style>
+
+  <section class="py-24 px-6 relative overflow-hidden bg-secondary-surface">
+    <div
+      class="flex flex-col md:flex-row justify-between items-end mb-16 gap-4 border-b border-purple-primary/20 pb-10">
+      <div data-aos="fade-right">
+        <div
+          class="inline-block px-3 py-1 rounded-md bg-purple-primary/10 text-purple-primary text-[10px] font-black tracking-[0.4em] uppercase mb-4">
+          Achievement
+        </div>
+        <h3 class="text-5xl md:text-6xl font-black tracking-tighter italic">
+          SERTIFIKASI.
+        </h3>
+      </div>
+      <p data-aos="fade-left" class="text-gray-500 max-w-xs text-right hidden md:block italic text-sm leading-relaxed">
+        Bukti kompetensi profesional yang telah divalidasi oleh institusi terkait.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+
+      <div data-aos="fade-up" data-aos-delay="100"
+        class="group relative glass-card p-4 rounded-[3rem] hover:border-purple-primary/50 transition-all duration-700">
+
+        <div class="flex flex-col lg:flex-row gap-8 items-center">
+          <div class="relative w-full lg:w-56 h-40 shrink-0 overflow-hidden rounded-[2rem] shadow-2xl">
+            <img id="cert-img-1" src="sertifikat-1.png"
+              class="w-full h-full object-cover transition-all duration-1000 group-hover:scale-125 group-hover:rotate-3 brightness-90 group-hover:brightness-110"
+              alt="upload-sertifikat" />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+            </div>
+          </div>
+
+          <div class="pr-4 py-2 text-center lg:text-left">
+            <div class="flex items-center justify-center lg:justify-start gap-2 mb-2">
+              <span class="w-8 h-[2px] bg-purple-primary"></span>
+              <p class="text-purple-primary text-[10px] font-black tracking-widest uppercase">Verified</p>
+            </div>
+            <h4 class="text-2xl font-black mb-2 group-hover:text-purple-primary smooth-transition leading-tight">Analyst
+              Program</h4>
+            <div class="flex items-center justify-center lg:justify-start gap-4 mb-4">
+              <p class="text-sm font-bold opacity-60">Badan Nasional Sertifikasi Profesi ( BNSP )</p>
+              <span class="w-1 h-1 rounded-full bg-gray-400"></span>
+              <p class="text-sm font-bold opacity-40 italic">Jakarta 15 September 2025</p>
+            </div>
+            <button onclick="openModal(document.getElementById('cert-img-1').src)"
+              class="text-xs font-black uppercase tracking-tighter border-b-2 border-purple-primary/30 hover:border-purple-primary transition-all pb-1 group-hover:tracking-[0.1em] cursor-pointer">
+              Lihat Detail Sertifikasi
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="projek" class="py-32 px-6 relative overflow-hidden bg-primary-surface">
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-purple-primary/50 to-transparent"></div>
+
+  <div class="max-w-6xl mx-auto relative z-10">
+    <div class="flex flex-col items-center mb-20">
+      <div data-aos="fade-down"
+        class="inline-block px-4 py-1.5 rounded-full bg-purple-primary/10 border border-purple-primary/20 text-purple-primary text-[10px] font-black tracking-[0.5em] uppercase mb-6">
+        Selected Works
+      </div>
+      <h2 data-aos="zoom-in"
+        class="text-6xl md:text-7xl font-black text-center tracking-tighter leading-none uppercase">
+        Hasil <span class="text-gradient">Projek.</span>
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 gap-16">
+      <div data-aos="fade-up"
+        class="group relative glass-card rounded-[3rem] overflow-hidden border border-white/5 hover:border-purple-primary/30 transition-all duration-1000">
+
+        <div class="flex flex-col lg:flex-row items-center">
+          <div class="w-full lg:w-2/5 h-[320px] overflow-hidden relative border-r border-white/5">
+            <div class="absolute inset-0 bg-gradient-to-r from-purple-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10"></div>
+
+            <img src="projek-1.png" alt="Company Profile"
+              class="w-full h-full object-cover object-top transform transition-all duration-[2s] cubic-bezier(0.34, 1.56, 0.64, 1) group-hover:scale-110" />
+
+            <div class="absolute bottom-6 left-6 z-20 flex gap-2">
+              <span class="px-3 py-1.5 backdrop-blur-xl bg-black/40 border border-white/10 rounded-lg text-[9px] font-bold text-white tracking-widest uppercase">
+                Web Design
+              </span>
+            </div>
+          </div>
+
+          <div class="w-full lg:w-3/5 p-10 lg:p-14 space-y-5 text-center lg:text-left">
+            <div class="space-y-1">
+              <p class="text-purple-primary font-black text-[10px] tracking-[0.3em] uppercase opacity-60">
+                Riezka Linedance
+              </p>
+              <h3 class="text-3xl md:text-4xl font-black tracking-tighter group-hover:text-purple-primary transition-colors duration-500">
+                Company Profile
+              </h3>
+            </div>
+            <p class="text-gray-500 dark:text-gray-400 font-medium leading-relaxed italic text-sm max-w-xl">
+              Transformasi identitas digital perusahaan dengan desain yang elegan, responsif, dan performa yang optimal untuk komunitas seni tari.
+            </p>
+            <div class="pt-4">
+              <a href="detail-projek-1.html?project=ecommerce"
+                class="inline-flex items-center gap-4 px-8 py-4 bg-white dark:bg-white/5 border border-purple-primary/20 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] group-hover:bg-purple-primary group-hover:text-white group-hover:shadow-[0_15px_30px_-10px_rgba(139,92,246,0.4)] transition-all duration-500">
+                Detail Projek
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transform group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+  </div>
+</section>
+
+  <section id="kontak" class="py-32 px-6 relative bg-secondary-surface">
+    <div
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-purple-primary/5 blur-[120px] rounded-full z-0 pointer-events-none">
+    </div>
+
+    <div class="relative z-10">
+      <div data-aos="fade-up" class="text-center mb-20">
+        <h2 class="text-purple-primary font-black uppercase tracking-[0.4em] text-xs mb-4">
+          Mari Terhubung
+        </h2>
+        <h3 class="text-5xl md:text-7xl font-black tracking-tighter italic">
+          KONTAK <span class="text-gradient">PERSONAL.</span>
+        </h3>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6" data-aos="fade-up" data-aos-delay="200">
+
+        <a href="https://wa.me/6289603691293" target="_blank"
+          class="md:col-span-2 glass-card p-10 rounded-[3rem] flex flex-col justify-between hover:bg-[#25D366]/10 hover:border-[#25D366]/40 hover:shadow-[0_0_50px_-12px_rgba(37,211,102,0.3)] group smooth-transition min-h-[280px]">
+          <div class="flex justify-between items-start">
+            <div
+              class="w-16 h-16 rounded-2xl bg-[#25D366]/20 flex items-center justify-center text-[#25D366] text-3xl group-hover:scale-110 group-hover:rotate-12 smooth-transition">
+              <i class="fab fa-whatsapp"></i>
+            </div>
+            <i class="fas fa-arrow-up-right-from-square opacity-20 group-hover:opacity-100 smooth-transition"></i>
+          </div>
+          <div>
+            <h4 class="text-2xl font-black mb-1">WhatsApp</h4>
+            <p class="text-sm font-medium opacity-60">Tersedia untuk chat cepat & konsultasi projek.</p>
+          </div>
+        </a>
+
+        <a href="https://instagram.com/muhamadarly__" target="_blank"
+          class="glass-card p-8 rounded-[3rem] flex flex-col items-center justify-center text-center hover:bg-gradient-to-br hover:from-[#f9ce34]/10 hover:via-[#ee2a7b]/10 hover:to-[#6228d7]/10 hover:border-[#ee2a7b]/40 hover:shadow-[0_0_50px_-12px_rgba(238,42,123,0.3)] group smooth-transition">
+          <div
+            class="w-14 h-14 rounded-full bg-gradient-to-tr from-[#f9ce34] to-[#ee2a7b] flex items-center justify-center text-white text-2xl mb-4 group-hover:scale-110 smooth-transition shadow-lg shadow-[#ee2a7b]/20">
+            <i class="fab fa-instagram"></i>
+          </div>
+          <p class="font-bold text-sm tracking-widest uppercase">Instagram</p>
+        </a>
+
+        <a href="https://linkedin.com/in/muhamad-arly-lianov-644747215" target="_blank"
+          class="glass-card p-8 rounded-[3rem] flex flex-col items-center justify-center text-center hover:bg-[#0077b5]/10 hover:border-[#0077b5]/40 hover:shadow-[0_0_50px_-12px_rgba(0,119,181,0.3)] group smooth-transition">
+          <div
+            class="w-14 h-14 rounded-2xl bg-[#0077b5]/20 flex items-center justify-center text-[#0077b5] text-2xl mb-4 group-hover:scale-110 group-hover:-rotate-12 smooth-transition">
+            <i class="fab fa-linkedin-in"></i>
+          </div>
+          <p class="font-bold text-sm tracking-widest uppercase">LinkedIn</p>
+        </a>
+
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=arlylianov21@gmail.com&su=Halo%20Arly,%20Saya%20ingin%20bekerja%20sama"
+          target="_blank"
+          class="md:col-span-4 glass-card p-8 rounded-[3rem] flex items-center justify-between hover:bg-purple-primary/10 hover:border-purple-primary/40 hover:shadow-[0_0_50px_-12px_rgba(139,92,246,0.3)] group smooth-transition">
+          <div class="flex items-center gap-6">
+            <div
+              class="w-14 h-14 rounded-2xl bg-purple-primary/20 flex items-center justify-center text-purple-primary text-2xl group-hover:animate-bounce">
+              <i class="far fa-envelope"></i>
+            </div>
+            <div class="text-left">
+              <h4 class="text-xl font-bold">Email</h4>
+              <p class="text-sm opacity-60 hidden md:block">arlylianov21@gmail.com</p>
+            </div>
+          </div>
+          <span
+            class="px-6 py-3 bg-purple-primary/10 border border-purple-primary/20 rounded-2xl text-purple-primary font-bold text-sm group-hover:bg-purple-primary group-hover:text-white smooth-transition">
+            Kirim Pesan
+          </span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="py-8 px-6 bg-secondary-surface border-t border-purple-primary/10 relative overflow-hidden">
+  <div class="absolute -top-10 left-1/2 -translate-x-1/2 w-32 h-32 bg-purple-primary/5 blur-3xl rounded-full"></div>
+  
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 relative z-10">
+    
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-purple-primary flex items-center justify-center text-white text-xs font-black shadow-lg shadow-purple-primary/20">
+        A
+      </div>
+      <span class="text-xs font-black tracking-[0.2em] uppercase opacity-80">
+        Arly <span class="text-purple-primary">Lianov</span>
+      </span>
+    </div>
+
+    <div class="flex gap-8 items-center">
+      <a href="#home" class="text-[10px] font-bold uppercase tracking-widest opacity-40 hover:opacity-100 hover:text-purple-primary transition-all">Home</a>
+      <a href="#projek" class="text-[10px] font-bold uppercase tracking-widest opacity-40 hover:opacity-100 hover:text-purple-primary transition-all">Works</a>
+      <a href="#kontak" class="text-[10px] font-bold uppercase tracking-widest opacity-40 hover:opacity-100 hover:text-purple-primary transition-all">Hire Me</a>
+    </div>
+
+    <div class="text-right">
+      <p class="text-[10px] font-bold uppercase tracking-[0.3em] opacity-30">
+        © 2024 • Crafted with Passion
+      </p>
+    </div>
+
+  </div>
+</footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000, once: true });
+
+    // FUNGSI MODAL YANG DIPERBAIKI
+    function openModal(imgSrc) {
+      const modal = document.getElementById("cert-modal");
+      const modalImg = document.getElementById("modal-img");
+      modalImg.src = imgSrc;
+      modal.classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal() {
+      const modal = document.getElementById("cert-modal");
+      const modalImg = document.getElementById("modal-img");
+      modal.classList.remove("active");
+      setTimeout(() => {
+        document.body.style.overflow = "auto";
+        modalImg.src = "";
+      }, 300);
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const icon = document.getElementById("theme-icon");
+      if (html.classList.contains("dark")) {
+        html.classList.remove("dark");
+        localStorage.theme = "light";
+        icon.innerText = "🌞";
+      } else {
+        html.classList.add("dark");
+        localStorage.theme = "dark";
+        icon.innerText = "🌙";
+      }
+    }
+
+    if (localStorage.theme === "light") {
+      document.documentElement.classList.remove("dark");
+      document.getElementById("theme-icon").innerText = "🌞";
+    }
+  </script>
+</body>
+
+</html>
